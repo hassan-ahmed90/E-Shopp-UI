@@ -28,30 +28,43 @@ class _HomeState extends State<Home> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 _buildCategory(name: "All Products",index: 0),
-                _buildCategory(name: "Jacketes",index: 2),
-                _buildCategory(name: "Sneakers",index: 3),
+                _buildCategory(name: "Jacketes",index: 1),
+                _buildCategory(name: "Sneakers",index: 2),
               ],
             ),
             SizedBox(height: 20,),
-            Expanded(child: _buildAllProduct(),)
+            Expanded(child:
+            isSelected==0?
+            _buildAllProduct():
+                isSelected==1?_buildJackts():_buildSneakers(),
+            ),
           ],
         ),
       )
     );
   }
+  _buildCategory({required int index,required String name}){
+    return GestureDetector(
+      onTap: (){
+        setState(() {
+          isSelected=index;
+        });
+
+      },
+      child: Container(
+        height: 40,
+        width: 100,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          color: isSelected==index? Colors.red : Colors.red.shade300,
+        ),
+        child: Center(child: Text(name,style: TextStyle(color: Colors.white),)),
+      ),
+    );
+  }
 }
 
-_buildCategory({required int index,required String name}){
-  return Container(
-    height: 40,
-    width: 100,
-    decoration: BoxDecoration(
-      borderRadius: BorderRadius.circular(10),
-      color: isSelected==index? Colors.red : Colors.red.shade300,
-    ),
-    child: Center(child: Text(name,style: TextStyle(color: Colors.white),)),
-  );
-}
+
 _buildAllProduct()=> GridView.builder(
   itemCount: MyProduct.allProduct.length,
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -63,5 +76,31 @@ scrollDirection: Axis.vertical,
   itemBuilder: (BuildContext context, int index) {
         final allProducts= MyProduct.allProduct[index];
         return ProductCard(product: allProducts);
+  },
+);
+_buildJackts()=> GridView.builder(
+  itemCount: MyProduct.jacketList.length,
+  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+      crossAxisCount: 2,
+      childAspectRatio: (100/140),
+      mainAxisSpacing: 12,
+      crossAxisSpacing: 12),
+  scrollDirection: Axis.vertical,
+  itemBuilder: (context,index) {
+    final jk= MyProduct.jacketList[index];
+    return ProductCard(product: jk);
+  },
+);
+_buildSneakers()=> GridView.builder(
+  itemCount: MyProduct.sneakerList.length,
+  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+      crossAxisCount: 2,
+      childAspectRatio: (100/140),
+      mainAxisSpacing: 12,
+      crossAxisSpacing: 12),
+  scrollDirection: Axis.vertical,
+  itemBuilder: (context,index) {
+    final sk= MyProduct.sneakerList[index];
+    return ProductCard(product: sk);
   },
 );
