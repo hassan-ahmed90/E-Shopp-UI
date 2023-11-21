@@ -1,3 +1,4 @@
+import 'package:e_cmmerce_hey_flutter/detailed_scree.dart';
 import 'package:e_cmmerce_hey_flutter/myproduct.dart';
 import 'package:e_cmmerce_hey_flutter/product_card.dart';
 import 'package:flutter/material.dart';
@@ -75,7 +76,11 @@ _buildAllProduct()=> GridView.builder(
 scrollDirection: Axis.vertical,
   itemBuilder: (BuildContext context, int index) {
         final allProducts= MyProduct.allProduct[index];
-        return ProductCard(product: allProducts);
+        return GestureDetector(
+            onTap: (){
+              Navigator.push(context, MaterialPageRoute(builder: (context)=>DetailedScreen(product: allProducts)));
+            },
+            child: ProductCard(product: allProducts));
   },
 );
 _buildJackts()=> GridView.builder(
@@ -88,7 +93,12 @@ _buildJackts()=> GridView.builder(
   scrollDirection: Axis.vertical,
   itemBuilder: (context,index) {
     final jk= MyProduct.jacketList[index];
-    return ProductCard(product: jk);
+    return GestureDetector(
+        onTap: (){
+          Navigator.push(context, MaterialPageRoute(
+              builder: (context)=>DetailedScreen(product: jk)));
+        },
+        child: ProductCard(product: jk));
   },
 );
 _buildSneakers()=> GridView.builder(
@@ -101,6 +111,10 @@ _buildSneakers()=> GridView.builder(
   scrollDirection: Axis.vertical,
   itemBuilder: (context,index) {
     final sk= MyProduct.sneakerList[index];
-    return ProductCard(product: sk);
+    return GestureDetector(
+        onTap: (){
+          Navigator.push(context, MaterialPageRoute(builder: (context)=>DetailedScreen(product: sk)));
+        },
+        child: ProductCard(product: sk));
   },
 );
